@@ -11,6 +11,7 @@ import RepositoryList from './repositoryList';
 
 class ContainerLeft extends Component {
   state = {
+    loading: false,
     repositoryError: false,
     repositoryName: '',
     repositories: [],
@@ -20,6 +21,7 @@ class ContainerLeft extends Component {
     e.preventDefault();
 
     try {
+      this.setState({ loading: true });
       const response = await request.get(`/repos/${this.state.repositoryName}`);
 
       this.setState({
@@ -29,6 +31,8 @@ class ContainerLeft extends Component {
       });
     } catch (error) {
       this.setState({ repositoryError: true });
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
@@ -43,7 +47,11 @@ class ContainerLeft extends Component {
               error={this.state.repositoryError}
             />
             <Button width="30px">
-              <i className="fa fa-plus" />
+              {this.state.loading ? (
+                <i className="fa fa-spinner fa-pulse" />
+              ) : (
+                <i className="fa fa-plus" />
+              )}
             </Button>
           </Row>
         </form>
