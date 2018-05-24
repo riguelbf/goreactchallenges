@@ -1,9 +1,14 @@
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import Column from './../elements/column';
 import Row from './../elements/row';
 
-const ContainerRight = styled(Row)`
-  width: 100%;
-`;
+class ContainerRight extends Component {
+  state = {};
+  render() {
+    return <h1>rigut</h1>;
+  }
+}
 
 export default ContainerRight;

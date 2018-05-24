@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import request from '../../services/request';
+
 import Container from './container';
 import Row from '../elements/row';
 import Button from '../elements/button';
@@ -9,45 +11,37 @@ import RepositoryList from './repositoryList';
 
 class ContainerLeft extends Component {
   state = {
-    repositories: [
-      {
-        id: 1,
-        urlLogo: 'xxx',
-        repositoryName: 'xxx',
-        company: 'xxx',
-      },
-      {
-        id: 2,
-        urlLogo: 'xxx',
-        repositoryName: 'xxx',
-        company: 'xxx',
-      },
-      {
-        id: 3,
-        urlLogo: 'xxx',
-        repositoryName: 'xxx',
-        company: 'xxx',
-      },
-      {
-        id: 4,
-        urlLogo: 'xxx',
-        repositoryName: 'xxx',
-        company: 'xxx',
-      },
-    ],
+    repositoryError: false,
+    repositoryName: '',
+    repositories: [],
+  };
+
+  handleGetRepositories = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await request.get(`/repos/${this.state.repositoryName}`);
+
+      this.setState({
+        repositoryName: '',
+        repositories: [...this.state.repositories, response.data],
+        repositoryError: false,
+      });
+    } catch (error) {
+      this.setState({ repositoryError: true });
+    }
   };
 
   render() {
     return (
       <Container>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            console.log('test event');
-          }}
-        >
+        <form onSubmit={this.handleGetRepositories}>
           <Row>
-            <Input placeholder="New repository" />
+            <Input
+              placeholder="New repository"
+              onChange={e => this.setState({ repositoryName: e.target.value })}
+              error={this.state.repositoryError}
+            />
             <Button width="30px">
               <i className="fa fa-plus" />
             </Button>

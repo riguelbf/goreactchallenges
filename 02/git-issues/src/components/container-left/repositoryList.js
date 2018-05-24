@@ -8,16 +8,16 @@ import Ul from '../elements/ul';
 import Icon from './icon';
 import Logo from './logo';
 
-const RepositoryList = (props = []) => (
+const RepositoryList = ({ repositories }) => (
   <Column>
     <Ul>
-      {props.repositories.map(repository => (
+      {repositories.map(repository => (
         <li key={repository.id}>
           <Row>
-            <Logo src={repository.urlLogo} alt={repository.company} />
+            <Logo src={repository.organization.avatar_url} alt={repository.name} />
             <Column>
-              <b>{repository.repositoryName}</b>
-              <small>{repository.company}</small>
+              <strong>{repository.name}</strong>
+              <small>{repository.owner.login}</small>
             </Column>
             <Icon className="fa fa-angle-right" />
           </Row>
@@ -33,10 +33,12 @@ RepositoryList.defaultProps = {
 
 RepositoryList.propTypes = {
   repositories: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    urlLogo: PropTypes.string.isRequired,
-    repositoryName: PropTypes.string.isRequired,
-    company: PropTypes.string.isRequired,
+    id: PropTypes.number,
+    avatar_url: PropTypes.string,
+    name: PropTypes.string,
+    owner: PropTypes.shape({
+      login: PropTypes.string,
+    }),
   })),
 };
 
