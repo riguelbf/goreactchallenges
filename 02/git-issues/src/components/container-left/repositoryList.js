@@ -1,34 +1,22 @@
 import React from 'react';
-import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import Column from '../elements/column';
 import Row from '../elements/row';
-
 import Ul from '../elements/ul';
 
-const Logo = styled.img`
-  width: 45px;
-  height: 45px;
-  border-radius: 3px;
-  margin: 0 3px;
-  border: 1px solid #000;
-`;
+import Icon from './icon';
+import Logo from './logo';
 
-const Icon = styled.i`
-  color: #c3baba;
-  font-size: 40px;
-  vertical-align: -webkit-baseline-middle;
-`;
-
-const RepositoryList = ([...repositories] = []) => (
+const RepositoryList = (props = []) => (
   <Column>
     <Ul>
-      {repositories.map(repository => (
-        <li>
+      {props.repositories.map(repository => (
+        <li key={repository.id}>
           <Row>
             <Logo src={repository.urlLogo} alt={repository.company} />
-            <Column width="235px">
-              <bold>{repository.repositoryName}</bold>
+            <Column>
+              <b>{repository.repositoryName}</b>
               <small>{repository.company}</small>
             </Column>
             <Icon className="fa fa-angle-right" />
@@ -38,5 +26,18 @@ const RepositoryList = ([...repositories] = []) => (
     </Ul>
   </Column>
 );
+
+RepositoryList.defaultProps = {
+  repositories: [],
+};
+
+RepositoryList.propTypes = {
+  repositories: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    urlLogo: PropTypes.string.isRequired,
+    repositoryName: PropTypes.string.isRequired,
+    company: PropTypes.string.isRequired,
+  })),
+};
 
 export default RepositoryList;
