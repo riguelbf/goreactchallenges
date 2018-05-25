@@ -8,6 +8,7 @@ const Header = styled.header`
   img {
     height: 70px;
     width: 70px;
+    border: none;
   }
 `;
 

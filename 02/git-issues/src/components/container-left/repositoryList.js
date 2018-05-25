@@ -14,7 +14,7 @@ const RepositoryList = ({ repositories, handleGetIssues, loadingIssue }) => (
     <Ul>
       {repositories.map(repository => (
         <li key={repository.id}>
-          <Button type="button" onClick={e => handleGetIssues(e)}>
+          <Button type="button" onClick={() => handleGetIssues(repository.id)}>
             <Row>
               <Logo src={repository.organization.avatar_url} alt={repository.name} />
               <Column>

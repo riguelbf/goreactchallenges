@@ -14,7 +14,7 @@ class Main extends Component {
     repositories: [],
     filterIssueType: 'all',
     loadingIssue: false,
-    issues: [],
+    repositorySelected: {},
   };
 
   handleGetRepositories = async (e) => {
@@ -40,14 +40,21 @@ class Main extends Component {
     this.setState({ repositoryName: e.target.value });
   };
 
-  handleGetIssues = async (e) => {
-    e.preventDefault();
+  handleGetIssues = async (repositoryId) => {
     try {
       this.setState({ loadingIssue: true });
-      const response = await request.get(`/repos/${this.state.repositoryName}/issues?state=${this.state.filterIssueType}`);
-      console.log(response.data);
+
+      const repository = this.state.repositories.find(r => r.id === repositoryId);
+      const response = await request.get(`/repos/${repository.full_name}/issues?state=${this.state.filterIssueType}`);
+
       this.setState({
-        issues: [...this.state.issues, response.data],
+        repositorySelected: {
+          id: repository.id,
+          avatar_url: repository.organization.avatar_url,
+          name: repository.name,
+          login: repository.owner.login,
+          issues: response.data,
+        },
       });
     } catch (error) {
       console.log('erro ');
@@ -56,9 +63,15 @@ class Main extends Component {
     }
   };
 
-  handleOnChangeFilterIssues = (e) => {
+  handleOnChangeFilterIssues = (e, repositoryId) => {
     const selectedIssueType = e.target.value;
     this.setState({ filterIssueType: selectedIssueType });
+    this.handleGetIssues(repositoryId);
+  };
+
+  handleOpenIssue = (urlIssue) => {
+    console.log(urlIssue);
+    window.open(urlIssue, '_blank');
   };
 
   render() {
@@ -73,7 +86,11 @@ class Main extends Component {
           handleGetIssues={this.handleGetIssues}
           loadingIssue={this.state.loadingIssue}
         />
-        <ContainerRight handleOnChangeFilterIssues={this.handleOnChangeFilterIssues} />
+        <ContainerRight
+          repositorySelected={this.state.repositorySelected}
+          handleOnChangeFilterIssues={this.handleOnChangeFilterIssues}
+          handleOpenIssue={this.handleOpenIssue}
+        />
       </Row>
     );
   }

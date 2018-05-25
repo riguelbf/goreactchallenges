@@ -7,6 +7,18 @@ const Issue = styled(Row)`
   width: calc(100% / 3);
   height: 105px;
   background-color: #fff;
+
+  & > div {
+    margin-left: 5px;
+  }
+
+  strong {
+    width: 95%;
+    height: 25%;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
 
 export default Issue;

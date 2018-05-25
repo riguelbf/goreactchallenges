@@ -13,68 +13,31 @@ const IssuesListContainer = styled(Row)`
   flex-wrap: wrap;
 `;
 
-const IssuesList = ({ issues } = []) => (
+const IssuesList = ({ issues, handleOpenIssue } = []) => (
   <IssuesListContainer>
-    <Issue>
-      <Avatar src="https://avatars2.githubusercontent.com/u/29647600?v=4" />
-      <Column>
-        <strong>react-navigation</strong>
-        <small>reacts</small>
-        <Button>
-          <i className="fa fa-edit" />
-          Abrir issue
-        </Button>
-      </Column>
-    </Issue>
-    <Issue>
-      <Avatar src="https://avatars2.githubusercontent.com/u/29647600?v=4" />
-      <Column>
-        <strong>react-navigation</strong>
-        <small>reacts</small>
-        <Button>
-          <i className="fa fa-edit" />
-          Abrir issue
-        </Button>
-      </Column>
-    </Issue>
-    <Issue>
-      <Avatar src="https://avatars2.githubusercontent.com/u/29647600?v=4" />
-      <Column>
-        <strong>react-navigation</strong>
-        <small>reacts</small>
-        <Button>
-          <i className="fa fa-edit" />
-          Abrir issue
-        </Button>
-      </Column>
-    </Issue>
-    <Issue>
-      <Avatar src="https://avatars2.githubusercontent.com/u/29647600?v=4" />
-      <Column>
-        <strong>react-navigation</strong>
-        <small>reacts</small>
-        <Button>
-          <i className="fa fa-edit" />
-          Abrir issue
-        </Button>
-      </Column>
-    </Issue>
-    <Issue>
-      <Avatar src="https://avatars2.githubusercontent.com/u/29647600?v=4" />
-      <Column>
-        <strong>react-navigation</strong>
-        <small>reacts</small>
-        <Button>
-          <i className="fa fa-edit" />
-          Abrir issue
-        </Button>
-      </Column>
-    </Issue>
+    {issues.map(issue => (
+      <Issue key={issue.id}>
+        <Avatar src={issue.user.avatar_url} />
+        <Column>
+          <strong>{issue.title}</strong>
+          <small>{issue.user.login}</small>
+          <Button onClick={() => handleOpenIssue(issue.html_url)}>
+            <i className="fa fa-edit" />
+            Abrir issue
+          </Button>
+        </Column>
+      </Issue>
+    ))}
   </IssuesListContainer>
 );
 
+IssuesList.defaultProps = {
+  issues: [],
+};
+
 IssuesList.propTypes = {
   issues: PropTypes.array,
+  handleOpenIssue: PropTypes.func.isRequired,
 };
 
 export default IssuesList;

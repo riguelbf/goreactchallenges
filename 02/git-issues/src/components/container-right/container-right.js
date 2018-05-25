@@ -9,28 +9,38 @@ import FilterStatus from './filterStatus';
 import Column from './../elements/column';
 import Row from './../elements/row';
 
-const ContainerRight = ({ handleOnChangeFilterIssues }) => (
+const ContainerRight = ({ repositorySelected, handleOnChangeFilterIssues, handleOpenIssue }) => (
   <Container>
     <Header>
       <Row>
-        <img src="https://avatars2.githubusercontent.com/u/29647600?v=4" alt="" />
+        <img src={repositorySelected.avatar_url} alt={repositorySelected.name} />
         <Column>
-          <strong>react-navigation</strong>
-          <small>reacts</small>
+          <strong>{repositorySelected.name}</strong>
+          <small>{repositorySelected.login}</small>
         </Column>
-        <FilterStatus onChange={e => handleOnChangeFilterIssues(e)}>
+        <FilterStatus onChange={e => handleOnChangeFilterIssues(e, repositorySelected.id)}>
           <option value="all">All</option>
           <option value="open">Open</option>
           <option value="closed">Closed</option>
         </FilterStatus>
       </Row>
     </Header>
-    <IssuesList />
+    <IssuesList
+      repositoryName={repositorySelected.fullName}
+      issues={repositorySelected.issues}
+      handleOpenIssue={handleOpenIssue}
+    />
   </Container>
 );
 
+ContainerRight.defaultProps = {
+  repositorySelected: {},
+};
+
 ContainerRight.propTypes = {
   handleOnChangeFilterIssues: PropTypes.func.isRequired,
+  handleOpenIssue: PropTypes.func.isRequired,
+  repositorySelected: PropTypes.shape({}),
 };
 
 export default ContainerRight;
