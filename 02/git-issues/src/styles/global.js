@@ -10,7 +10,7 @@ injectGlobal`
     }
 
     body{
-        background: #ddd;
+        background: #fff;
         text-rendering : optimizeLegebility !important;
         -webkit-font-smoothing: antiLiazed !important;
     }
