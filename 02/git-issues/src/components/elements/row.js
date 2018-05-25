@@ -5,10 +5,6 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
   align-content: flex-start;
-  padding: 5px;
-  margin: 2px;
-  border: 1px solid #000;
-  border-radius: 3px;
 `;
 
 export default Row;

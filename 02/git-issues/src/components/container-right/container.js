@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import Column from '../elements/column';
 
 const Container = styled(Column)`
+  height: calc(100vh - 10px);
   width: 100%;
-  background-color: #fff;
-  border: 1px solid #000;
-  border-radius: 3px;
+  left: 0;
 `;
 
 export default Container;

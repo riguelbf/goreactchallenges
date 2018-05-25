@@ -7,6 +7,10 @@ const Button = styled.button`
   border-radius: 3px;
   font-size: 15px;
   margin-top: 5px;
+
+  &:hover {
+    background-color: #e0c6f3;
+  }
 `;
 
 export default Button;

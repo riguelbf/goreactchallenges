@@ -1,16 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import IssuesList from './issuesList';
 import Container from './container';
 import Header from './header';
-
-import Logo from '../container-left/logo';
 import FilterStatus from './filterStatus';
 
 import Column from './../elements/column';
 import Row from './../elements/row';
 
-const ContainerRight = () => (
+const ContainerRight = ({ handleOnChangeFilterIssues }) => (
   <Container>
     <Header>
       <Row>
@@ -19,15 +18,19 @@ const ContainerRight = () => (
           <strong>react-navigation</strong>
           <small>reacts</small>
         </Column>
-        <FilterStatus>
-          <option>Op 1</option>
-          <option>Op 2</option>
-          <option>Op 3</option>
+        <FilterStatus onChange={e => handleOnChangeFilterIssues(e)}>
+          <option value="all">All</option>
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
         </FilterStatus>
       </Row>
     </Header>
     <IssuesList />
   </Container>
 );
+
+ContainerRight.propTypes = {
+  handleOnChangeFilterIssues: PropTypes.func.isRequired,
+};
 
 export default ContainerRight;

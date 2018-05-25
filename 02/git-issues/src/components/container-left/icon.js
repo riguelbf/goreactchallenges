@@ -5,6 +5,7 @@ const Icon = styled.i`
   font-size: 40px;
   vertical-align: -webkit-baseline-middle;
   margin-left: auto;
+  background-color: #fff;
 `;
 
 export default Icon;

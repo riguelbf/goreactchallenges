@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-
-import request from '../../services/request';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Container from './container';
 import Row from '../elements/row';
@@ -9,56 +8,43 @@ import Input from '../elements/input';
 
 import RepositoryList from './repositoryList';
 
-class ContainerLeft extends Component {
-  state = {
-    loading: false,
-    repositoryError: false,
-    repositoryName: '',
-    repositories: [],
-  };
+const ContainerLeft = props => (
+  <Container>
+    <form onSubmit={e => props.submit(e)}>
+      <Row>
+        <Input
+          placeholder="New repository"
+          onChange={e => props.handleOnChange(e)}
+          error={props.repositoryError}
+        />
+        <Button width="30px">
+          {props.loading ? <i className="fa fa-spinner fa-pulse" /> : <i className="fa fa-plus" />}
+        </Button>
+      </Row>
+    </form>
+    <RepositoryList
+      repositories={props.repositories}
+      handleGetIssues={props.handleGetIssues}
+      loadingIssue={props.loadingIssue}
+    />
+  </Container>
+);
 
-  handleGetRepositories = async (e) => {
-    e.preventDefault();
+ContainerLeft.defaultProps = {
+  repositoryError: false,
+  loading: false,
+  repositories: [],
+  loadingIssue: false,
+};
 
-    try {
-      this.setState({ loading: true });
-      const response = await request.get(`/repos/${this.state.repositoryName}`);
-
-      this.setState({
-        repositoryName: '',
-        repositories: [...this.state.repositories, response.data],
-        repositoryError: false,
-      });
-    } catch (error) {
-      this.setState({ repositoryError: true });
-    } finally {
-      this.setState({ loading: false });
-    }
-  };
-
-  render() {
-    return (
-      <Container>
-        <form onSubmit={this.handleGetRepositories}>
-          <Row>
-            <Input
-              placeholder="New repository"
-              onChange={e => this.setState({ repositoryName: e.target.value })}
-              error={this.state.repositoryError}
-            />
-            <Button width="30px">
-              {this.state.loading ? (
-                <i className="fa fa-spinner fa-pulse" />
-              ) : (
-                <i className="fa fa-plus" />
-              )}
-            </Button>
-          </Row>
-        </form>
-        <RepositoryList repositories={this.state.repositories} />
-      </Container>
-    );
-  }
-}
+ContainerLeft.propTypes = {
+  handleGetIssues: PropTypes.func.isRequired,
+  submit: PropTypes.func.isRequired,
+  handleOnChange: PropTypes.func.isRequired,
+  repositoryError: PropTypes.bool,
+  loading: PropTypes.bool,
+  loadingIssue: PropTypes.bool,
+  repositories: PropTypes.arrayOf(PropTypes.shape([])),
+};
 
 export default ContainerLeft;

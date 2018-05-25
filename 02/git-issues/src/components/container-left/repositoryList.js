@@ -7,20 +7,23 @@ import Ul from '../elements/ul';
 
 import Icon from './icon';
 import Logo from './logo';
+import Button from './button';
 
-const RepositoryList = ({ repositories }) => (
+const RepositoryList = ({ repositories, handleGetIssues, loadingIssue }) => (
   <Column>
     <Ul>
       {repositories.map(repository => (
         <li key={repository.id}>
-          <Row>
-            <Logo src={repository.organization.avatar_url} alt={repository.name} />
-            <Column>
-              <strong>{repository.name}</strong>
-              <small>{repository.owner.login}</small>
-            </Column>
-            <Icon className="fa fa-angle-right" />
-          </Row>
+          <Button type="button" onClick={e => handleGetIssues(e)}>
+            <Row>
+              <Logo src={repository.organization.avatar_url} alt={repository.name} />
+              <Column>
+                <strong>{repository.name}</strong>
+                <small>{repository.owner.login}</small>
+              </Column>
+              <Icon className={loadingIssue ? 'fa fa-spinner fa-pulse' : 'fa fa-angle-right'} />
+            </Row>
+          </Button>
         </li>
       ))}
     </Ul>
@@ -29,9 +32,12 @@ const RepositoryList = ({ repositories }) => (
 
 RepositoryList.defaultProps = {
   repositories: [],
+  loadingIssue: false,
 };
 
 RepositoryList.propTypes = {
+  loadingIssue: PropTypes.bool,
+  handleGetIssues: PropTypes.func.isRequired,
   repositories: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     avatar_url: PropTypes.string,
