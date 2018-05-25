@@ -10,6 +10,10 @@ const Header = styled.header`
     width: 70px;
     border: none;
   }
+
+  strong {
+    margin-top: 15px;
+  }
 `;
 
 export default Header;
