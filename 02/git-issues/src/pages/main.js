@@ -57,7 +57,7 @@ class Main extends Component {
         },
       });
     } catch (error) {
-      console.log('erro ');
+      throw new Error(error);
     } finally {
       this.setState({ loadingIssue: false });
     }
@@ -70,7 +70,6 @@ class Main extends Component {
   };
 
   handleOpenIssue = (urlIssue) => {
-    console.log(urlIssue);
     window.open(urlIssue, '_blank');
   };
 

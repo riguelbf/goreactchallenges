@@ -13,7 +13,7 @@ const IssuesListContainer = styled(Row)`
   flex-wrap: wrap;
 `;
 
-const IssuesList = ({ issues, handleOpenIssue } = []) => (
+const IssuesList = ({ issues, handleOpenIssue }) => (
   <IssuesListContainer>
     {issues.map(issue => (
       <Issue key={issue.id}>
@@ -36,7 +36,11 @@ IssuesList.defaultProps = {
 };
 
 IssuesList.propTypes = {
-  issues: PropTypes.array,
+  issues: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string,
+    login: PropTypes.string,
+    html_url: PropTypes.string,
+  })),
   handleOpenIssue: PropTypes.func.isRequired,
 };
 
